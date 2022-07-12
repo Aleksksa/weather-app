@@ -1,0 +1,95 @@
+/* Nulling styles */
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+input {
+    font-family: inherit;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: initial;
+}
+
+button {
+    font-family: inherit;
+    appearance: none;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: initial;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: inherit;
+    font-size: inherit;
+
+}
+
+html,
+body {
+    height: 100%;
+    line-height: 1;
+}
+
+/* Fonts */
+@font-face {
+    font-family: Inter;
+    src: url('../fonts/Inter-Regular.woff'), url('../fonts/Inter-Regular.woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('../fonts/Inter-Medium.woff'), url('../fonts/Inter-Medium.woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'Inter', serif;
+    font-weight: 400;
+    color: var(--grey);
+    background-image: url('../img/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.app {
+    max-width: 600px;
+    max-height: 484px;
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 30px;
+}
