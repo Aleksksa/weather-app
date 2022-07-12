@@ -233,3 +233,42 @@ body {
 .active {
     color: var(--pink);
 }
+
+#main-img{
+    transition: all 0.3s ease-in-out;
+}
+
+#main-img:hover{
+    opacity: 0.8;
+}
+
+/* More info block */
+.weather-more-info {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.more-info-row-1 {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.more-info-heading {
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: 1px;
+}
+
+.more-info-icon {
+    transition: all 0.3s ease-in-out;
+}
+
+.more-info-icon:hover {
+    opacity: 0.6;
+}
+
+.more-info-value {
+    font-weight: 500;
+    font-size: 13px;
+    margin-top: 1px;
+}
