@@ -13,6 +13,8 @@ const visibility = document.querySelector('#visibility');
 const minTemp = document.querySelector('#temp-low');
 const maxTemp = document.querySelector('#temp-high');
 
+let mainIcon = document.querySelector('#main-icon');
+
 //creating a variable that will store the name of the city
 let city;
 
@@ -37,6 +39,10 @@ const displayWeather = (response) => {
     weatherDesc.innerHTML = `${response.data.weather[0].main}`;
     maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}`;
     minTemp.innerHTML = `${Math.round(response.data.main.temp_min)}`;
+
+    //changing icon
+    let apiIcon = response.data.weather[0].icon;
+    mainIcon.setAttribute('src', `img/icons/${apiIcon}.png`);
 
     //more info block
     feelsLike.innerHTML = `${Math.round(response.data.main.feels_like)}`;
