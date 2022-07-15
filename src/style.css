@@ -276,3 +276,23 @@ body {
     font-size: 13px;
     margin-top: 1px;
 }
+
+/* Footer */
+.footer{
+    text-align: center;
+}
+
+.footer-text{
+    color: var(--white);
+    font-size: 14px;
+}
+
+.main-link{
+    color: var(--white);
+    text-decoration: underline;
+    transition: all 0.3s ease-in-out;
+}
+
+.main-link:hover{
+    color: var(--grey);
+}
