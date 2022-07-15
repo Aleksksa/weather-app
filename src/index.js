@@ -15,11 +15,11 @@ const maxTemp = document.querySelector('#temp-high');
 
 let mainIcon = document.querySelector('#main-icon');
 
-//creating a variable that will store the name of the city
-let city;
+const celsius = document.querySelector('#celsius');
+const fahrenheit = document.querySelector('#fahrenheit');
 
-//getting API key
-const apiKey = 'da02e7bd1e86c2fd40c97607f3f77f84';
+//creating a global variable that will store the celsius Temp
+let celsiusTemp = null;
 
 //setting current date
 const setDate = () => {
@@ -33,9 +33,9 @@ setDate();
 
 //weather API integration
 const displayWeather = (response) => {
-    let temp = Math.round(response.data.main.temp);
+    celsiusTemp = Math.round(response.data.main.temp);
     searchedCity.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
-    weatherTemp.innerHTML = `${temp}°`
+    weatherTemp.innerHTML = `${celsiusTemp}°`
     weatherDesc.innerHTML = `${response.data.weather[0].main}`;
     maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}`;
     minTemp.innerHTML = `${Math.round(response.data.main.temp_min)}`;
@@ -51,10 +51,37 @@ const displayWeather = (response) => {
     visibility.innerHTML = `${response.data.visibility / 1000}`;
 }
 
+const searchData = (city) => {
+    //getting API key
+    const apiKey = 'da02e7bd1e86c2fd40c97607f3f77f84';
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`).then(displayWeather);
+}
+
+searchData('Sydney');
+
 //working with search form
 searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const searchInput = document.querySelector('.form-input');
-    city = `${searchInput.value}`;
-    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`).then(displayWeather);
-})
+    searchData(searchInput.value);
+    fahrenheit.classList.remove('active');
+    celsius.classList.add('active');
+});
+
+//unit conversion
+const convertToFahr = () => {
+    let fahrenheitValue = Math.round((celsiusTemp * 9) / 5 + 32);
+    weatherTemp.innerHTML = `${fahrenheitValue}°`;
+    fahrenheit.classList.add('active');
+    celsius.classList.remove('active');
+}
+
+const convertToCelsius = () => {
+    weatherTemp.innerHTML = `${celsiusTemp}°`;
+    fahrenheit.classList.remove('active');
+    celsius.classList.add('active');
+}
+
+
+fahrenheit.addEventListener('click', convertToFahr);
+celsius.addEventListener('click', convertToCelsius);
