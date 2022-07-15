@@ -18,8 +18,11 @@ let mainIcon = document.querySelector('#main-icon');
 const celsius = document.querySelector('#celsius');
 const fahrenheit = document.querySelector('#fahrenheit');
 
-//creating a global variable that will store the celsius Temp
+//creating global variables that will store the celsius Temp
 let celsiusTemp = null;
+let maxCelsTemp = null;
+let minCelsTemp = null;
+let feelsLikeTemp = null;
 
 //setting current date
 const setDate = () => {
@@ -37,15 +40,19 @@ const displayWeather = (response) => {
     searchedCity.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
     weatherTemp.innerHTML = `${celsiusTemp}°`
     weatherDesc.innerHTML = `${response.data.weather[0].main}`;
-    maxTemp.innerHTML = `${Math.round(response.data.main.temp_max)}`;
-    minTemp.innerHTML = `${Math.round(response.data.main.temp_min)}`;
+
+    maxCelsTemp = Math.round(response.data.main.temp_max);
+    minCelsTemp = Math.round(response.data.main.temp_min)
+    maxTemp.innerHTML = `${maxCelsTemp}`;
+    minTemp.innerHTML = `${minCelsTemp}`;
 
     //changing icon
     let apiIcon = response.data.weather[0].icon;
     mainIcon.setAttribute('src', `img/icons/${apiIcon}.png`);
 
     //more info block
-    feelsLike.innerHTML = `${Math.round(response.data.main.feels_like)}`;
+    feelsLikeTemp = Math.round(response.data.main.feels_like);
+    feelsLike.innerHTML = `${feelsLikeTemp}`;
     humidity.innerHTML = `${response.data.main.humidity}`;
     wind.innerHTML = `${Math.round(response.data.wind.speed)}`;
     visibility.innerHTML = `${response.data.visibility / 1000}`;
@@ -69,15 +76,27 @@ searchForm.addEventListener('submit', (e) => {
 });
 
 //unit conversion
+
+const toFahrenheit = (value) => {
+    let res = Math.round((value*9)/5 +32);
+    return res;
+}
+
 const convertToFahr = () => {
-    let fahrenheitValue = Math.round((celsiusTemp * 9) / 5 + 32);
+    let fahrenheitValue = toFahrenheit(celsiusTemp);
     weatherTemp.innerHTML = `${fahrenheitValue}°`;
+    maxTemp.innerHTML = `${toFahrenheit(maxCelsTemp)}`;
+    minTemp.innerHTML = `${toFahrenheit(minCelsTemp)}`;
+    feelsLike.innerHTML = `${toFahrenheit(feelsLikeTemp)}`
     fahrenheit.classList.add('active');
     celsius.classList.remove('active');
 }
 
 const convertToCelsius = () => {
     weatherTemp.innerHTML = `${celsiusTemp}°`;
+    maxTemp.innerHTML = `${maxCelsTemp}`;
+    minTemp.innerHTML = `${minCelsTemp}`;
+    feelsLike.innerHTML = `${feelsLikeTemp}`;
     fahrenheit.classList.remove('active');
     celsius.classList.add('active');
 }
