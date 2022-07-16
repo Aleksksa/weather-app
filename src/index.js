@@ -34,6 +34,31 @@ const setDate = () => {
 
 setDate();
 
+//function for displaying weather for week
+const displayWeekWeather = () => {
+    const forecast = document.querySelector('#week-forecast');
+    let forecastHTML = "";
+    let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    days.forEach((day) => {
+        forecastHTML = forecastHTML + `
+        <div class="col-2">
+            <div class="weather-card">
+                <div class="card-date" id="card-date">${day}</div>
+                <div class="card-image">
+                    <img src="img/icons/09n.png" alt="Sun, clouds and rain" width="50px" height="50px" />
+                </div>
+                <div class="card-temp">
+                    <span id="card-temp-high">28</span>°/ <span id="card-temp-low">19</span>°
+                </div>
+            </div>
+        </div>
+        `
+    })
+    forecast.innerHTML = forecastHTML;
+}
+
+displayWeekWeather();
+
 //weather API integration
 const displayWeather = (response) => {
     celsiusTemp = Math.round(response.data.main.temp);
