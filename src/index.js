@@ -108,19 +108,14 @@ const searchData = (city) => {
 
 searchData('Chicago');
 
-//working with search form
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const searchInput = document.querySelector('.form-input');
-    searchData(searchInput.value);
-    fahrenheit.classList.remove('active');
-    celsius.classList.add('active');
-});
-
 //unit conversion
-
 const toFahrenheit = (value) => {
     let res = Math.round((value*9)/5 +32);
+    return res;
+}
+
+const toCelsius = (value) => {
+    let res = Math.round((value - 32)*5/9);
     return res;
 }
 
@@ -130,8 +125,30 @@ const convertToFahr = () => {
     maxTemp.innerHTML = `${toFahrenheit(maxCelsTemp)}`;
     minTemp.innerHTML = `${toFahrenheit(minCelsTemp)}`;
     feelsLike.innerHTML = `${toFahrenheit(feelsLikeTemp)}`
+
+
+    //calculations for weekly forecast values
+    let weeklyMin = document.querySelectorAll('#card-temp-low');
+    weeklyMin.forEach((item) => {
+        //grabbing a value to convert
+        let minValue = item.innerHTML;
+        item.innerHTML = `${toFahrenheit(minValue)}`;
+    })
+
+    let weeklyMax = document.querySelectorAll('#card-temp-high');
+    weeklyMax.forEach((item) => {
+        //grabbing a value to convert
+        let minValue = item.innerHTML;
+        item.innerHTML = `${toFahrenheit(minValue)}`;
+    })
+
+    //removing and adding classes for buttons
     fahrenheit.classList.add('active');
     celsius.classList.remove('active');
+
+    //removing eventListener for fahrenehit to prevent multiple calculations and adding for celsius
+    celsius.addEventListener('click', convertToCelsius);
+    fahrenheit.removeEventListener('click', convertToFahr);
 }
 
 const convertToCelsius = () => {
@@ -139,10 +156,41 @@ const convertToCelsius = () => {
     maxTemp.innerHTML = `${maxCelsTemp}`;
     minTemp.innerHTML = `${minCelsTemp}`;
     feelsLike.innerHTML = `${feelsLikeTemp}`;
+
+    //calculations for weekly forecast values
+    let weeklyMin = document.querySelectorAll('#card-temp-low');
+    weeklyMin.forEach((item) => {
+        //grabbing a value to convert
+        let minValue = item.innerHTML;
+        item.innerHTML = `${toCelsius(minValue)}`;
+    })
+
+    let weeklyMax = document.querySelectorAll('#card-temp-high');
+    weeklyMax.forEach((item) => {
+        //grabbing a value to convert
+        let minValue = item.innerHTML;
+        item.innerHTML = `${toCelsius(minValue)}`;
+    })
+
+    //removing and adding classes for buttons
     fahrenheit.classList.remove('active');
     celsius.classList.add('active');
+
+    //removing eventListener for celsius to prevent multiple calculations and adding for fahrenheit
+    fahrenheit.addEventListener('click', convertToFahr);
+    celsius.removeEventListener('click', convertToCelsius);
 }
 
-
+//adding listeners for units' buttons
 fahrenheit.addEventListener('click', convertToFahr);
 celsius.addEventListener('click', convertToCelsius);
+
+//working with search form
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchInput = document.querySelector('.form-input');
+    searchData(searchInput.value);
+    fahrenheit.classList.remove('active');
+    celsius.classList.add('active');
+    fahrenheit.addEventListener('click', convertToFahr);
+});
