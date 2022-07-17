@@ -18,6 +18,9 @@ let mainIcon = document.querySelector('#main-icon');
 const celsius = document.querySelector('#celsius');
 const fahrenheit = document.querySelector('#fahrenheit');
 
+//API key
+const apiKey = 'da02e7bd1e86c2fd40c97607f3f77f84';
+
 //creating global variables that will store the celsius Temp
 let celsiusTemp = null;
 let maxCelsTemp = null;
@@ -34,30 +37,43 @@ const setDate = () => {
 
 setDate();
 
+//function for converting date value from the api to normal state
+const formatDate = (timestamp) => {
+    let date = new Date(timestamp * 1000);
+    let day = date.getDay();//we are getting value from 0 to 6
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    return days[day];
+};
+
 //function for displaying weather for week
-const displayWeekWeather = () => {
+const displayWeekWeather = (response) => {
+    let dailyForecast = response.data.daily;
     const forecast = document.querySelector('#week-forecast');
     let forecastHTML = "";
-    let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-    days.forEach((day) => {
-        forecastHTML = forecastHTML + `
+    for(let i = 1; i < 7; i++){
+         forecastHTML += `
         <div class="col-2">
-            <div class="weather-card">
-                <div class="card-date" id="card-date">${day}</div>
-                <div class="card-image">
-                    <img src="img/icons/09n.png" alt="Sun, clouds and rain" width="50px" height="50px" />
-                </div>
-                <div class="card-temp">
-                    <span id="card-temp-high">28</span>°/ <span id="card-temp-low">19</span>°
-                </div>
-            </div>
-        </div>
+             <div class="weather-card">
+                 <div class="card-date" id="card-date">${formatDate(dailyForecast[i].dt)}</div>
+                 <div class="card-image">
+                    <img src="img/icons/${dailyForecast[i].weather[0].icon}.png" alt="Sun, clouds and rain" width="50px" height="50px" />
+                 </div>
+                 <div class="card-temp">
+                     <span id="card-temp-high">${Math.round(dailyForecast[i].temp.max)}</span>°/ <span id="card-temp-low">${Math.round(dailyForecast[i].temp.min)}</span>°
+                 </div>
+             </div>
+         </div>
         `
-    })
+    }
+
     forecast.innerHTML = forecastHTML;
 }
 
-displayWeekWeather();
+
+const showWeekWeather = (coords) => { 
+    console.log(coords);
+    axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lon}&appid=${apiKey}&units=metric`).then(displayWeekWeather);
+}
 
 //weather API integration
 const displayWeather = (response) => {
@@ -81,15 +97,16 @@ const displayWeather = (response) => {
     humidity.innerHTML = `${response.data.main.humidity}`;
     wind.innerHTML = `${Math.round(response.data.wind.speed)}`;
     visibility.innerHTML = `${response.data.visibility / 1000}`;
+
+    showWeekWeather(response.data.coord);
 }
 
 const searchData = (city) => {
     //getting API key
-    const apiKey = 'da02e7bd1e86c2fd40c97607f3f77f84';
     axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`).then(displayWeather);
 }
 
-searchData('Sydney');
+searchData('Chicago');
 
 //working with search form
 searchForm.addEventListener('submit', (e) => {
