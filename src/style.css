@@ -296,7 +296,7 @@ body {
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(30px);
     border-radius: 10px;
-    padding: 18px 10px;
+    padding: 20px 5px;
     text-align: center;
     transition: all 0.3s ease-in-out;
 }
@@ -317,7 +317,7 @@ body {
 }
 
 .card-temp{
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
 }
 
