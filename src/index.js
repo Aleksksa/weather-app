@@ -18,6 +18,8 @@ let mainIcon = document.querySelector('#main-icon');
 const celsius = document.querySelector('#celsius');
 const fahrenheit = document.querySelector('#fahrenheit');
 
+const locationBtn = document.querySelector('.form-icon');
+
 //API key
 const apiKey = 'da02e7bd1e86c2fd40c97607f3f77f84';
 
@@ -107,6 +109,20 @@ const searchData = (city) => {
 }
 
 searchData('Chicago');
+
+//geolocation processing
+const showLocation = () => {
+    let latitude;
+    let longitude;
+    navigator.geolocation.getCurrentPosition((position) => {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`).then(displayWeather);
+    })
+}
+
+locationBtn.addEventListener('click', showLocation);
+
 
 //unit conversion
 const toFahrenheit = (value) => {
